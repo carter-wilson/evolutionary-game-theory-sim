@@ -1,30 +1,42 @@
-from enum import Enum
+import random
 
-State = Enum('State', 'homeless housed pregnant')
+
+def generate_base_dna():
+    return {'strength': random.lognormvariate(0, 1), 'sexiness': random.normalvariate(0, 1),
+            'pbidc': random.lognormvariate(-1, 1), 'ibidc': random.lognormvariate(-1, 1),
+            'pbidh': random.lognormvariate(-1, 1), 'ibidh': random.lognormvariate(-1, 1)}
 
 
 class Shrimp:
-    def __init__(self, start_health, base_health_dec, health_dec, dna):
-        self.state = State.homeless
+    def __init__(self, start_health, base_health_dec, health_dec, dna=None):
+        self.homeless = True
+        self.fertile = 0
         self.base_health = start_health
         self.health = self.base_health
         self.health_dec = health_dec
         self.base_health_dec = base_health_dec
+        if dna is None:
+            dna = generate_base_dna()
         self.dna = dna
-    
+
     def step(self, env):
         self.base_health -= self.base_health_dec
         self.health -= self.health_dec
-        if self.state == State.homeless:
+        self.fertile += 1
+        if self.homeless:
             env.search(self)
-        elif self.state == State.pregnant:
-            self.set_state(State.housed)
-        elif self.state == State.housed:
+        elif self.fertile > 3:
             env.search_for_mate(self)
         env.find_food(self)
-        
-    def set_state(self,state):
-        self.state = state
 
-    def bid(self):
-        pass
+    def pos_display(self):
+        return 0
+
+    def int_display(self):
+        return 0
+
+    def pos_bid(self, display):
+        return self.base_health * self.dna['pbidh'] + self.dna['pbidc']
+
+    def int_bid(self, display):
+        return self.base_health * self.dna['ibidh'] + self.dna['ibidc']
