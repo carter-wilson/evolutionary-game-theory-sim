@@ -1,10 +1,18 @@
+import math
 import random
 
 
 def generate_base_dna():
     return {'strength': random.lognormvariate(0, 1), 'sexiness': random.normalvariate(0, 1),
-            'pbidc': random.lognormvariate(-1, 1), 'ibidc': random.lognormvariate(-1, 1),
-            'pbidh': random.lognormvariate(-1, 1), 'ibidh': random.lognormvariate(-1, 1)}
+            'pdisc': random.normalvariate(0, 1), 'idisc': random.normalvariate(0, 1),
+            'pdish': random.normalvariate(0, 1), 'idish': random.normalvariate(0, 1),
+            'pbidc': random.normalvariate(0, 1), 'ibidc': random.normalvariate(0, 1),
+            'pbidh': random.normalvariate(0, 1), 'ibidh': random.normalvariate(0, 1),
+            'pbidd': random.normalvariate(0, 1), 'ibidd': random.normalvariate(0, 1)}
+
+
+def exp(x):
+    return x + 1 if x>=0 else math.exp(x)
 
 
 class Shrimp:
@@ -30,13 +38,13 @@ class Shrimp:
         env.find_food(self)
 
     def pos_display(self):
-        return 0
+        return exp(self.health * self.dna['pdish'] + self.dna['pdisc'])
 
     def int_display(self):
-        return 0
+        return exp(self.health * self.dna['idish'] + self.dna['idisc'])
 
     def pos_bid(self, display):
-        return self.base_health * self.dna['pbidh'] + self.dna['pbidc']
+        return exp(self.health * self.dna['pbidh'] + self.dna['pbidc'] + display * self.dna['pbidd'])
 
     def int_bid(self, display):
-        return self.base_health * self.dna['ibidh'] + self.dna['ibidc']
+        return exp(self.health * self.dna['ibidh'] + self.dna['ibidc'] + display * self.dna['ibidd'])
