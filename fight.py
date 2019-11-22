@@ -9,6 +9,6 @@ def fight(posseser, intruder):
     intruder.base_health -= min(pbid,ibid)
     intruder.health = min(intruder.health, intruder.base_health)
     if pbid > ibid:
-      return posseser, intruder
+        return posseser, intruder, pbid, ibid
     else:
-      return intruder, posseser
+        return intruder, posseser, pbid, ibid

@@ -1,6 +1,8 @@
 import matplotlib
 import matplotlib.pyplot as plt
 
+matplotlib.use("Qt4agg")
+plt.ion()
 
 def mypause(interval):
     backend = plt.rcParams['backend']
