@@ -16,6 +16,7 @@ def exp(x):
 
 
 class Shrimp:
+    age = 0
     def __init__(self, start_health, base_health_dec, health_dec, dna=None):
         self.homeless = True
         self.fertile = 0
@@ -28,6 +29,7 @@ class Shrimp:
         self.dna = dna
 
     def step(self, env):
+        self.age += 1
         self.base_health -= self.base_health_dec
         self.health -= self.health_dec
         self.fertile += 1

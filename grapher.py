@@ -23,3 +23,31 @@ def plot(f, data, xlab='Time', ylab='', overwrite=True):
         plt.ylabel(ylab)
     plt.plot(data)
     mypause(0.001)
+
+
+def multi(data):
+    plt.clf()
+    plt.subplot(2,1,1)
+    plt.plot(data['pop'])
+    plt.title('Population')
+
+    plt.subplot(2,2,3)
+    plt.plot(data['biddif'][:500])
+    plt.title('Bid Difference - First 500')
+
+    plt.subplot(2,2,4)
+    plt.plot(data['biddif'])
+    plt.title('Bid Difference')
+
+import json
+if __name__ == '__main__':
+    d = json.load(open('save1.json'))
+    plot(0,d['born'])
+    plot(1,d['dead'])
+    plot(2,d['pop'])
+    # plot(3,d['old'])
+    plot(3,d['age'])
+    plot(4,d['pb'])
+    plot(5,d['ib'])
+    plt.show()
+    input()

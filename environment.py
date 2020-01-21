@@ -1,5 +1,4 @@
 import random
-
 from shrimp import Shrimp
 from fight import fight
 
@@ -7,9 +6,9 @@ from fight import fight
 class Environment:
     born = 0
     dead = 0
-    pb,ib=[],[]
     def __init__(self, num_shrimp, num_homes, housed_food_value, homeless_food_value, start_health, base_health_dec,
                  health_dec):
+        self.biddiff = list()
         self.homes = [None for _ in range(num_homes)]
         self.shrimp = [Shrimp(start_health, base_health_dec, health_dec) for _ in range(num_shrimp)]
         self.born = num_shrimp
@@ -40,8 +39,7 @@ class Environment:
             self.homes[i] = wl[0]
             wl[0].homeless = False
             wl[1].homeless = True
-            self.pb.append(wl[2])
-            self.ib.append(wl[3])
+            self.biddiff.append(wl[2]-wl[3])
 
     def find_food(self, s):
         food = random.random() * self.homeless_food_value if s.homeless else random.random() * self.housed_food_value
